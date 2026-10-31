@@ -1,4 +1,6 @@
-Heat equation: `u_t = α∇²u`
+### Heat equation: 
+    
+    $u_t = \alpha \nabla^2 u$
 
 The rate of change (time derivative) is proportional to how far u is from its neighbor average. Hills sink, bowls fill, and everything relaxes toward the Laplace (equilibrium) solution.
 
@@ -6,19 +8,23 @@ The rate of change (time derivative) is proportional to how far u is from its ne
 - Only one time derivative and a second spatial one, so it needs one initial condition plus boundary conditions.
 - Information spreads instantly everywhere (infinite speed), but with exponentially small effect far away.
 
-Methods of solving 1D heat equation:
+### Methods of solving 1D heat equation:
 - Analytical
     - Separation of Variables (Fourier)
     - Laplace and Fourier Transform
 - Numerical
     - Explicit
-        - Forward time central space 
+        - Forward time centered space 
         - Runge Kutta
     - Implicit
         - Backward Euler
         - Crank Nicolson
 
-Additional:
+### Forward Time Centered Space:
+
+    Discrete version description
+
+#### Additional:
 
 Harmonic oscillator (intro)
 
