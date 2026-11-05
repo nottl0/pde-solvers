@@ -2,7 +2,7 @@ import jax.numpy as jnp
 from jax.experimental import sparse
 import matplotlib.pyplot as plt
 
-### TODO: optimize the for loop w jit
+### TODO: optimize the for loop w jit (maybe other things too)
 
 # One way to compute laplacian is using direct differences of neighboring components 
 # Another way (used here) is to multiply matrix L by vector u
@@ -35,10 +35,6 @@ def ftcs_solver(dx, initial_cond, dt, alpha, T):
 
 def exact(x, t, alpha):
     return jnp.exp(-alpha * jnp.pi**2 * t) * jnp.sin(jnp.pi * x)
-
-def err(x, dx, dt, initial_cond, alpha, T):
-    x, u = ftcs_solver(dx, initial_cond, dt, alpha, T)
-    return jnp.max(jnp.abs(u - exact(x, T, alpha)))
 
 def main():
     # Number of intervals in space
