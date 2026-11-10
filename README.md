@@ -30,20 +30,24 @@ With the problems that we are trying to solve using the heat equation we often k
 
 FCTS approcximates the gradient operations in the heat equation with finite differences. Using 
 
-```math
-u_t = \frac{u(t+dt)-u(t)}{dt} \\\\
-u_{xx} = \frac{u(t+dt)-2u(t)+u(t-dt)}{dt}
-```
+$$
+\begin{aligned}
+u_t &= \frac{u(t+dt)-u(t)}{dt} \\
+u_{xx} &= \frac{u(t+dt)-2u(t)+u(t-dt)}{dt}
+\end{aligned}
+$$
    
 We can derive the update rule by combining the equations for $u_t$ and $u_{xx}$ with the heat equation to get the update rule of FCTS: 
 
-```math
+$$
+\begin{aligned}
 u_t = \alpha \nabla^2 u\\\\
 u_t = \frac{u(t+dt)-u(t)}{dt}\\\\
 u_{xx} = \frac{u(x+dx)-2u(x)+u(x-dx)}{dx}\\\\
 \frac{u(t+dt)-u(t)}{dt} = \alpha \times \frac{u(x+dx)-2u(x)+u(x-dx)}{dx}\\\\
 u(t+dt) = u(t) + dt \times \alpha \times \frac{u(x+dx)-2u(x)+u(x-dx)}{dx}
-```
+\end{aligned}
+$$
 
 This equation specifies how the value of $u$ changes for each point of space for a very small timestep $dt$. As we can see from the last equation the falue of $u$ for a constant $x$ in the future is given by the current value of u as well as the weighted values of $u$ at its nearest neighbors.
 
@@ -53,13 +57,15 @@ Instead of using the explicit formulation of $u(t+dt)$ to compute the values at 
 
 PINNs incorporate several loss terms to do that. In the formulas below $L_{ic}$ is the loss term that ensures that the initial conditions are satisfied by the predicted $\hat{u}$, $L_{bc}$ is the boundary conditions' loss that ensures that the boundary conditions are met, and $L_{residual}$ is the loss that represents the condition that the heat equation must be satisfied.
 
-```math
+$$
+\begin{aligned}
 L = w_{ic} L_{ic} + w_{bc} L_{bc} + w_{residual} L_{residual} \\\\
 L_{ic} = \sum^{N}_{i=0}[\hat{u}(x_i, t=0) - u(x_i, t=0)]^2\\\\
 L_{bc} = \sum^{N}_{i=0}[\hat{u}(x = 1, t_i) - u(x = 1, t_i)]^2\\\\
 L_{bc} = \sum^{N}_{i=0}[\hat{u}(x = 0, t_i) - u(x = 0, t_i)]^2\\\\
 L_{residual} = \sum^{N}_{i=0}[\hat{u(x_i, x_i)}_t - alpha * \hat{u(x_i, t_i)}_{xx}]^2\\\\
-```
+\end{aligned}
+$$
    
 #### Additional:
 
