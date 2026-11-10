@@ -15,6 +15,8 @@ def laplacian_operator(n, dx):
     return mat_sparse
 
 def ftcs_solver(dx, initial_cond, dt, alpha, T):
+    if T == 0:
+        return initial_cond
     # Adjust dt so we end at timestep T in case T is not divisible by dt
     nt = int(round(T / dt))
     dt = T / nt
@@ -38,7 +40,7 @@ def exact(x, t, alpha):
 
 def main():
     # Number of intervals in space
-    nx = 100
+    nx = 200
 
     # Timestep 
     dt = 0.0001
@@ -66,28 +68,17 @@ def main():
     # Is respected with the values at endpoints sin(0) = sin(pi*x) = 0
     u0 = u0.at[1:-1].set(jnp.sin(jnp.pi * x[1:-1]))
 
-    u = ftcs_solver(dx, u0, dt, alpha, T)
-
-    # Use analytical solution for the given initial conditions
-    u_exact = exact(x, T, alpha)
-    error = u - u_exact
-    print(f"max error at T={T}: {jnp.max(jnp.abs(error)):.3e}")
-
-    # Plot the estimated u, analytical u and error for t=T
-    x_fine = jnp.linspace(0.0, 1.0, 400)
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7, 6), sharex=True,
-                                   gridspec_kw={"height_ratios": [3, 1]})
-    ax1.plot(x, u0, "--", color="gray", label="initial (t=0)")
-    ax1.plot(x_fine, exact(x_fine, T, alpha), "k-", label=f"exact (t={T})")
-    ax1.plot(x, u, "o", ms=4, label="FTCS")
-    ax1.set_ylabel("u")
-    ax1.legend()
-    ax2.plot(x, error, "r.-")
-    ax2.axhline(0, color="k", lw=0.5)
-    ax2.set_xlabel("x")
-    ax2.set_ylabel("error")
-    plt.tight_layout()
-    plt.show()
+    import time 
+    fig, ax = plt.subplots()
+    for t0 in (0.0, 0.25, 0.5, T):
+        start = time.time()
+        u_pred = ftcs_solver(dx, u0, dt, alpha, t0)
+        end = time.time() - start
+        u_true = exact(x, t0, alpha)
+        print(f"t={t0}: max err {jnp.max(jnp.abs(u_pred - u_true)):.2e}, time {end:.2e}")
+        ax.plot(x, u_true, "k-", lw=1)
+        ax.plot(x, u_pred, "--", label=f"t={t0}")
+    ax.legend(); plt.show()
  
  
 if __name__ == "__main__":
