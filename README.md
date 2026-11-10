@@ -28,14 +28,14 @@ With the problems that we are trying to solve using the heat equation we often k
 
 ### Forward Time Centered Space:
 
-    FCTS approcximates the gradient operations in the heat equation with finite differences. Using 
+FCTS approcximates the gradient operations in the heat equation with finite differences. Using 
 
 ```math
 u_t = \frac{u(t+dt)-u(t)}{dt} \\
 u_{xx} = \frac{u(t+dt)-2u(t)+u(t-dt)}{dt}
 ```
    
-    We can derive the update rule by combining the equations for $u_t$ and $u_{xx}$ with the heat equation to get the update rule of FCTS: 
+We can derive the update rule by combining the equations for $u_t$ and $u_{xx}$ with the heat equation to get the update rule of FCTS: 
 
 ```math
 u_t = \alpha \nabla^2 u\\
@@ -45,7 +45,7 @@ u_{xx} = \frac{u(x+dx)-2u(x)+u(x-dx)}{dx}\\
 u(t+dt) = u(t) + dt \times \alpha \times \frac{u(x+dx)-2u(x)+u(x-dx)}{dx}
 ```
 
-    This equation specifies how the value of $u$ changes for each point of space for a very small timestep $dt$. As we can see from the last equation the falue of $u$ for a constant $x$ in the future is given by the current value of u as well as the weighted values of $u$ at its nearest neighbors.
+This equation specifies how the value of $u$ changes for each point of space for a very small timestep $dt$. As we can see from the last equation the falue of $u$ for a constant $x$ in the future is given by the current value of u as well as the weighted values of $u$ at its nearest neighbors.
 
 #### PINN Solution:
 
