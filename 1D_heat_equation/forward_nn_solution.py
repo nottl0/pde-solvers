@@ -151,7 +151,9 @@ def main(config):
         print(f"t={t0}: max err {jnp.max(jnp.abs(u_pred - u_true)):.2e}, time {end:.2e}")
         ax.plot(x, u_true, "k-", lw=1)
         ax.plot(x, u_pred, "--", label=f"t={t0}")
-    ax.legend(); plt.show()
+    ax.legend()
+    fig.savefig("ftcs_solution.png", dpi=300, bbox_inches="tight")
+    plt.close(fig)
  
 if __name__ == "__main__":
     main()

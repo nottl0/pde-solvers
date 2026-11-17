@@ -1,9 +1,14 @@
-### Heat equation: 
+### 1D Heat equation: 
 
 ```math
 u_t = \alpha \nabla^2 u
 ```
-The rate of change (time derivative) is proportional to how far u is from its neighbor average. Hills sink, bowls fill, and everything relaxes toward the Laplace (equilibrium) solution.
+$$
+\alpha = \frac{k}{\rho c}
+$$
+where $$\alpha$$ thermal diffusivity is proportional to thermal conductivity (ability to conduct heat), and inversely proportional to the material density and specific heat capacity (ability to store heat).
+
+The rate of change (time derivative) of temperature is proportional to how different the temperature at a given point is from its neighbor average. Hills sink, bowls fill, and everything relaxes toward the Laplace (equilibrium) solution. Meaning that if a point has hot neighbors its going to heat up, and conversely if the neighborhood of a point is cold, its going to cool down.
 
 - Time has a direction. Smoothing destroys information, so it is irreversible.
 - Only one time derivative and a second spatial one, so it needs one initial condition plus boundary conditions.
@@ -66,6 +71,39 @@ L_{bc} = \sum^{N}_{i=0}[\hat{u}(x = 0, t_i) - u(x = 0, t_i)]^2\\\\
 L_{residual} = \sum^{N}_{i=0}[\hat{u(x_i, x_i)}_t - alpha * \hat{u(x_i, t_i)}_{xx}]^2\\\\
 \end{aligned}
 $$
+
+#### More details on the equation iteslf:
+
+Fourier's law of heat conduction states that heat flows in the direction of decreasing temperature. And the heat flux (energy per unit area per unit time) is described by:
+
+$$
+q = -k T_x
+$$
+
+This is the heat flow. Now let's see how temperature changes. If we consider a section of a metal rod (1d line) the energy accumulation is going to be heat entering the section - heat leaving the section. So the net energy accumulated is:
+
+$$
+q(x, t)A\Delta t - q(x +\Delta x, t) A\Delta t
+$$
+
+Where A is the rod's cross section. It is also known that the energy stored in a segment of the rod caused by a temperature increase \Delta T is:
+
+$$
+Q = mc \Delta T = \rho V c \Delta T = \rho A \Delta x c\Delta T \\
+\Delta E = \rho c A\Delta x \Delta T
+$$
+
+So equating the two and taking the limit on t and x produce:
+
+$$
+\rho c A \Delta x \Delta T = q(x, t)A\Delta t - q(x +\Delta x, t) A\Delta t \hspace{1cm} (: \Delta x \Delta t) \\
+\rho c T_t = -q_x\\
+\rho c T_t = -k T_{xx}\\
+T_t = -\alpha T_{xx}\\
+$$
+
+
+
    
 #### Additional:
 
@@ -77,3 +115,11 @@ Harmonic oscillator (intro)
 Jax Training Cookbook
 
 - https://docs.jax.dev/en/latest/the-training-cookbook.html
+
+#### Next:
+
+- Optimise 1d solver with jax (for loops)
+- Implement Runge Kutta 
+- Implement Crank Nickelson / Backward Euler
+
+- 2d incompressible flow 
